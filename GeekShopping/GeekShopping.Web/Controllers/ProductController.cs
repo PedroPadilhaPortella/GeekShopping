@@ -13,10 +13,9 @@ namespace GeekShopping.Web.Controllers
 
     public ProductController(IProductService productService)
     {
-      _productService = productService ?? throw new ArgumentException(nameof(productService));
+      _productService = productService;
     }
 
-    [Authorize]
     public async Task<IActionResult> Index()
     {
       var accessToken = await GetAccessToken();
@@ -24,7 +23,7 @@ namespace GeekShopping.Web.Controllers
       return View(products);
     }
 
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
       return View();
     }

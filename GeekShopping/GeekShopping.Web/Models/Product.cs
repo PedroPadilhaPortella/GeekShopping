@@ -1,4 +1,6 @@
-﻿namespace GeekShopping.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GeekShopping.Web.Models
 {
     public class Product
     {
@@ -8,5 +10,18 @@
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string ImageURL { get; set; }
+
+        [Range(1, 100)]
+        public int Count { get; set; } = 1;
+
+        public string FormattedName()
+        {
+            return (Name.Length < 24) ? Name : $"{Name[..21]}...";
+        }
+
+        public string FormattedDescription()
+        {
+            return (Description.Length < 355) ? Description : $"{Description[..352]}...";
+        }
     }
 }

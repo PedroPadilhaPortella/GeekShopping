@@ -18,7 +18,6 @@ namespace GeekShopping.ProductAPI.Controllers
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<ActionResult<List<ProductDTO>>> GetAll()
     {
       var products = await _productRepository.FindAll();
