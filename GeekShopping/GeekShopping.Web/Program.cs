@@ -9,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IProductService, ProductService>(
-    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+);
+
+builder.Services.AddHttpClient<ICartService, CartService>(
+    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])
 );
 
 // Configure IdentityServer Authentication

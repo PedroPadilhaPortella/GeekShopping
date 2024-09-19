@@ -16,23 +16,23 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CartDTO>> GetAll(string userId)
+        public async Task<ActionResult<CartDTO>> GetCartById(string id)
         {
-            var cart = await _repository.GetCartByUserId(userId);
+            var cart = await _repository.GetCartByUserId(id);
             if (cart == null) return NotFound();
             return Ok(cart);
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<CartDTO>> AddCart(CartDTO cartDTO)
+        [HttpPost]
+        public async Task<ActionResult<CartDTO>> AddCartItem(CartDTO cartDTO)
         {
             var cart = await _repository.SaveOrUpdateCart(cartDTO);
             if (cart == null) return NotFound();
             return Ok(cart);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<CartDTO>> UpdateCart(CartDTO cartDTO)
+        [HttpPut]
+        public async Task<ActionResult<CartDTO>> UpdateCartItem(CartDTO cartDTO)
         {
             var cart = await _repository.SaveOrUpdateCart(cartDTO);
             if (cart == null) return NotFound();
