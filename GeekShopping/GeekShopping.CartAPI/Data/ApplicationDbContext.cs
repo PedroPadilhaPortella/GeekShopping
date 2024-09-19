@@ -13,10 +13,5 @@ namespace GeekShopping.CartAPI.Data
         public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-     
-        }
     }
 }
