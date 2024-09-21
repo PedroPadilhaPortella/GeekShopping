@@ -22,12 +22,12 @@ namespace GeekShopping.CartAPI.Repository
             Cart cart = new Cart
             {
                 CartHeader = await _context.CartHeaders
-                    .FirstOrDefaultAsync(c => c.UserId == userId),
+                    .FirstOrDefaultAsync(c => c.UserId == userId) ?? null,
             };
 
             cart.CartDetails = _context.CartDetails
                     .Where(c => c.CartHeaderId == cart.CartHeader.Id)
-                    .Include(c => c.Product);
+                    .Include(c => c.Product) ?? null;
 
             return _mapper.Map<CartDTO>(cart);
         }
@@ -40,8 +40,7 @@ namespace GeekShopping.CartAPI.Repository
             var product = await _context.Products
                 .FirstOrDefaultAsync(p => p.Id == cart.CartDetails.FirstOrDefault().ProductId);
 
-            if(product == null)
-            {
+            if(product == null) {
                 _context.Products.Add(cart.CartDetails.FirstOrDefault().Product);
                 await _context.SaveChangesAsync();
             }
@@ -51,8 +50,7 @@ namespace GeekShopping.CartAPI.Repository
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.UserId == cart.CartHeader.UserId);
 
-            if (cartHeader == null)
-            {
+            if (cartHeader == null) {
                 // Create CartHeader and CartDetails
                 _context.CartHeaders.Add(cart.CartHeader);
                 await _context.SaveChangesAsync();
@@ -61,8 +59,8 @@ namespace GeekShopping.CartAPI.Repository
                 cart.CartDetails.FirstOrDefault().Product = null;
                 _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
                 await _context.SaveChangesAsync();
-            } else
-            {
+
+            } else {
                 // Check if CartDetails has same product
                 var cartDetail = await _context.CartDetails
                     .AsNoTracking()
@@ -70,15 +68,13 @@ namespace GeekShopping.CartAPI.Repository
                         p => p.ProductId == cart.CartDetails.FirstOrDefault().ProductId
                         && p.CartHeaderId == cartHeader.Id);
 
-                if(cartDetail == null)
-                {
+                if(cartDetail == null) {
                     // Create CartDetails
                     cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.Id;
                     cart.CartDetails.FirstOrDefault().Product = null;
                     _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
                     await _context.SaveChangesAsync();
-                } else
-                {
+                } else {
                     // Update product count and CartDetails
                     cart.CartDetails.FirstOrDefault().Product = null;
                     cart.CartDetails.FirstOrDefault().Count += cartDetail.Count;
@@ -107,8 +103,7 @@ namespace GeekShopping.CartAPI.Repository
                 _context.CartDetails.Remove(cartDetail);
 
                 // Also remove CartHeader if total is going to be less than 1
-                if (total == 1)
-                {
+                if (total == 1) {
                     var cartHeaderToRemove = await _context.CartHeaders
                         .FirstOrDefaultAsync(c => c.Id == cartDetail.CartHeaderId);
 
@@ -128,8 +123,7 @@ namespace GeekShopping.CartAPI.Repository
         {
             var cartHeader = _context.CartHeaders.FirstOrDefault(c => c.UserId == userId);
 
-            if(cartHeader != null)
-            {
+            if(cartHeader != null) {
                 _context.CartDetails.RemoveRange(
                     _context.CartDetails.Where(c => c.CartHeaderId == cartHeader.Id)
                 );
@@ -137,17 +131,37 @@ namespace GeekShopping.CartAPI.Repository
                 await _context.SaveChangesAsync();
                 return true;
             }
+
             return false;
         }
 
         public async Task<bool> ApplyCoupon(string userId, string couponCode)
         {
-            throw new NotImplementedException();
+            var cartHeader = _context.CartHeaders.FirstOrDefault(c => c.UserId == userId);
+
+            if (cartHeader != null) {
+                cartHeader.CouponCode = couponCode;
+                _context.CartHeaders.Update(cartHeader);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> RemoveCoupon(string userId)
         {
-            throw new NotImplementedException();
+            var cartHeader = _context.CartHeaders.FirstOrDefault(c => c.UserId == userId);
+
+            if (cartHeader != null)
+            {
+                cartHeader.CouponCode = "";
+                _context.CartHeaders.Update(cartHeader);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

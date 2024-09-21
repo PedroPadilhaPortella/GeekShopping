@@ -17,10 +17,10 @@ namespace GeekShopping.CouponAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("{couponCode}")]
         public async Task<ActionResult<CouponDTO>> GetCouponByCouponCode(string couponCode)
         {
-            var coupon = await _repository.GetCouponBtCouponCode(couponCode);
+            var coupon = await _repository.GetCouponByCouponCode(couponCode);
             if (coupon == null) return NotFound();
             return Ok(coupon);
         }
