@@ -77,10 +77,11 @@ namespace GeekShopping.CartAPI.Controllers
 
             if (cart == null) return NotFound();
 
-            _rabbitMQMessageSender.SendMessage(checkoutHeaderDTO, "checkoutqueue");
-
             checkoutHeaderDTO.CartDetails = cart.CartDetails;
             checkoutHeaderDTO.DateTime = DateTime.Now;
+
+            _rabbitMQMessageSender.SendMessage(checkoutHeaderDTO, "checkoutqueue");
+
             return Ok(checkoutHeaderDTO);
         }
     }
