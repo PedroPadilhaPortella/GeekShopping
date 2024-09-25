@@ -66,3 +66,5 @@ Desenvolvedores e engenheiros de software
 Desenvolvedores back-end
 Desenvolvedores front-end que desejam se tornar fullstack
 Quem já tentou outros tutoriais sobre microsserviços e descobriu que eles eram muito lentos, desatualizados e chatos!
+
+> docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
