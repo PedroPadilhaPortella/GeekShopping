@@ -1,4 +1,5 @@
 using GeekShopping.CartAPI.Data;
+using GeekShopping.CartAPI.Interfaces;
 using GeekShopping.CartAPI.RabbitMQSender;
 using GeekShopping.CartAPI.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +17,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
 builder.Services.AddSingleton(AutoMapperConfiguration.RegisterMaps().CreateMapper());
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configure Services and Repositories
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+
+builder.Services.AddHttpClient<ICouponRepository, CouponRepository>(
+    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
+);
 
 builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 
 builder.Services.AddControllers();
 
+// Configure Swagger
 builder.Services
   .AddAuthentication("Bearer")
   .AddJwtBearer("Bearer", options =>

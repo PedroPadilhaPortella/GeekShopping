@@ -1,6 +1,6 @@
 ﻿using GeekShopping.CartAPI.DTO;
 
-namespace GeekShopping.CartAPI.Repository
+namespace GeekShopping.CartAPI.Interfaces
 {
     public interface ICartRepository
     {
