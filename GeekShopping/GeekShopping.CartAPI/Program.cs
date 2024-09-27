@@ -1,6 +1,6 @@
 using GeekShopping.CartAPI.Data;
 using GeekShopping.CartAPI.Interfaces;
-using GeekShopping.CartAPI.RabbitMQSender;
+using GeekShopping.CartAPI.MessageSender;
 using GeekShopping.CartAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

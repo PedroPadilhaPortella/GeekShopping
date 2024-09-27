@@ -1,7 +1,7 @@
 ﻿using GeekShopping.CartAPI.DTO;
 using GeekShopping.CartAPI.Interfaces;
 using GeekShopping.CartAPI.Messages;
-using GeekShopping.CartAPI.RabbitMQSender;
+using GeekShopping.CartAPI.MessageSender;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.CartAPI.Controllers
