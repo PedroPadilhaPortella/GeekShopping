@@ -90,7 +90,7 @@ namespace GeekShopping.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Confirmation()
+        public IActionResult Confirmation()
         {
             return View();
         }

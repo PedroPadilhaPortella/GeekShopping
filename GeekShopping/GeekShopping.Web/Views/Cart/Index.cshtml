@@ -117,7 +117,34 @@
 } 
 else 
 {
-    <div>
-        <p>Yor Cart is Empty!</p>
-    </div>
+       <form>
+        <br/>
+        <div>
+            <div class="card border mt-4 container">
+                <div class="card-header bg-dark text-light ml-0 row">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Shopping Cart
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning btn-sm">
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body my-4 text-center">
+                    <h2>Your Cart is Empty</h2>
+                </div>
+                <div class="card-footer row">
+                    <div class="col-6 col-md-3 offset-md-6">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <button disabled class="btn btn-success form-control">
+                            <span>Checkout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 }
