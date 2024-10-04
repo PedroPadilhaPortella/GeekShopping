@@ -1,70 +1,41 @@
-# Arquitetura_de_Microsservicos_com_Dotnet
+# Arquitetura de Microsservicos com Dotnet
 
 ## Domine microservices, construa um e-commerce com ASP.NET .NET 'Core' 6 Oauth2 OpenID Identity Server RabbitMQ Ocelot e++
 
+This project is part of a comprehensive microservices architecture course that focuses on building a scalable e-commerce platform using ASP.NET Core 6. The stack includes modern technologies like OAuth2, OpenID, IdentityServer, RabbitMQ, and Ocelot API Gateway.
 
-Venha se especializar no desenvolvimento de microsserviços com ASP.NET, .NET 'Core' 6, Oauth2, OpenID, Identity Server, RabbitMQ, Ocelot, C# e muito mais!
+## Project Architeture
 
-Atualmente os microsserviços são uma verdadeira febre. Desenvolvedores em todo o mundo estão entregando software com mais rapidez e escalabilidade graças a arquiteturas de microsserviços. Neste curso, você aprenderá as habilidades necessárias para construir microsserviços em C# com .NET 6 e ASP.NET.
 
-O curso ensina os fundamentos centrais de uma arquitetura de microsserviços tanto na teoria(20%), quanto na prática(80%). Esse conhecimento será aplicado na implementação de microsserviços com .NET 6 e C#. Inicialmente faremos uma rápida revisão dos fundamentos teóricos do REST, em seguida veremos como construir API’s REST na plataforma .NET. Depois dessa breve revisão veremos o que são microsserviços e seus aspectos mais importantes. Em seguida criaremos os primeiros microsserviços. Começaremos com um projeto simples e expandiremos gradualmente a nossa stack adicionando microsserviços e tecnologias mais complexas. Nesse treinamento abordaremos, tecnologias como:
 
-ASP.NET;
+## Technologies Used
 
-.NET 6;
+- **ASP.NET Core 6**: Web framework for building modern applications.
+- **C#**: Programming language used throughout the project.
+- **OAuth2**: Authorization framework to secure APIs.
+- **OpenID Connect**: Identity layer for OAuth2 to handle authentication.
+- **JWT (JSON Web Tokens)**: Secure token-based authentication.
+- **IdentityServer**: Authentication and authorization server for handling security.
+- **RabbitMQ**: Message broker for asynchronous communication between microservices.
+- **Ocelot**: API Gateway for routing and securing microservices.
+- **Swagger (Swashbuckle)**: Tool for API documentation and testing.
+- **Postman**: API testing tool used during development.
+- **Docker**: Container platform for managing RabbitMQ and other services.
 
-Oauth2;
+To run the project, clone it with ´git clone https://github.com/PedroPadilhaPortella/Arquitetura_de_Microsservicos_com_Dotnet.git´. 
+Then open the **GeekShopping** solution in Visual Studio and restore it.
 
-OpenID;
+Using MySql database, create all the schemas required and then, run all projects migrations for each one of this projects `GeekShopping.IdentityServer`, `GeekShopping.ProductAPI`, `GeekShopping.CartAPI`, `GeekShopping.CouponAPI`, `GeekShopping.Email`, `GeekShopping.OrderAPI`.
 
-JWT (JSON Web Tokens);
+**Databases Names:**
 
-Identity Server;
+- `geek_shopping_identity_server`
+- `geek_shopping_product_api`
+- `geek_shopping_cart_api`
+- `geek_shopping_coupon_api`
+- `geek_shopping_email`
+- `geek_shopping_order_api`
 
-RabbitMQ;
-
-API Gateway com Ocelot
-
-Swagger OpenAPI e muito mais.
-
-Se você está pronto para aprender como construir microsserviços sólidos e eficientes com ASP.NET, .NET 6 e estar preparado pra vaga dos sonhos em pouco mais de 18 horas a partir de agora? Pressione o botão "Comprar Agora" e comece imediatamente!
-
-Te vejo lá!
-
-O que você aprenderá
-20% Teoria e 80% Prática
-O que são microsserviços e por que são cada vez mais populares
-O que é e como Implementar Oauth2, OpenID, JWT e Identity Server
-Como usar o framework Duende para construir um Identity Server
-Como trabalhar com Postman
-Desenvolver microsserviços com .NET 6
-Publicação e Consumo de Mensagens com RabbitMQ
-Segurança de microsserviços
-O que é e Como Implementar um API Gateway com Ocelot
-Comunicação Síncrona e Assíncrona entre Microsserviços
-Utilizar JMS para mensageria entre microsserviços .NET 6 com RabbitMQ
-Configurar uma stack de microsserviços do 0 absoluto
-As boas práticas a se adotar ao desenvolver microsserviços
-Como expor e consumir microsserviços através de API's RESTFul
-Gere documentação de API com Swashbuckle (Swagger)
-Aprenda a Integrar API's de terceiros com seus Microserviços
-[EXTRA] - Como Integrar Microsserviços à API do ChatGPT
-Há algum requisito ou pré-requisito para o curso?
-Não é necessária nenhuma experiência anterior com microsserviços
-Uma conta no Github
-É necessário conhecimento básico de C#, .NET, ASP NET e com o desenvolvimento de web services
-Conhecimento de .NET pode acelerar o processo de aprendizado
-Noções básicas de API's RESTful podem acelerar o processo de aprendizado
-Estar familiarizado e confortável com a linha de comando
-Conhecimentos básicos de SQL e qualquer banco de dados relacional
-Conhecimentos básicos de Linux
-Para quem é este curso:
-Desenvolvedores em início de carreira e que precisam aprender a construir uma stack de microsserviços do zero
-Quem deseja aprender a construir microsserviços na plataforma .NET
-Quem deseja entregar software com mais rapidez por meio de uma arquitetura de microsserviços
-Desenvolvedores e engenheiros de software
-Desenvolvedores back-end
-Desenvolvedores front-end que desejam se tornar fullstack
-Quem já tentou outros tutoriais sobre microsserviços e descobriu que eles eram muito lentos, desatualizados e chatos!
+To start the RabbitMQ Message Broker container with Docker:
 
 > docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
