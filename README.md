@@ -6,7 +6,7 @@ This project is part of a comprehensive microservices architecture course that f
 
 ## Project Architeture
 
-
+![image](https://github.com/user-attachments/assets/bb99e0e1-076e-41c0-b01a-28fc215cfce4)
 
 ## Technologies Used
 
