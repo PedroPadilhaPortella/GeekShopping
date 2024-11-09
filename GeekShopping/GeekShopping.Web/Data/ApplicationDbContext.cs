@@ -1,7 +1,7 @@
-﻿using GeekShopping.ProductAPI.Models;
+﻿using GeekShopping.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GeekShopping.ProductAPI.Data
+namespace GeekShopping.Web.Data
 {
   public class ApplicationDbContext : DbContext
   {

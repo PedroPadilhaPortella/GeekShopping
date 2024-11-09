@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.Web", "GeekShopping.Web\GeekShopping.Web.csproj", "{ADB89325-3C0C-44DA-ADFE-DB35AA28810A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.ProductAPI", "GeekShopping.ProductAPI\GeekShopping.ProductAPI.csproj", "{33CC2A54-B5AE-45B7-BB85-3195914D5495}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.IdentityServer", "GeekShopping.IdentityServer\GeekShopping.IdentityServer.csproj", "{0BE35CE2-AABE-4FC4-8621-67692CBDA982}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.CartAPI", "GeekShopping.CartAPI\GeekShopping.CartAPI.csproj", "{AD73AC04-59D3-4850-8E8A-45A2717DEB2B}"
@@ -33,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.Email", "GeekS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{F720C3DA-11EF-44E0-8B48-EFE8D0F71A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.APIGateway", "GeekShopping.APIGateway\GeekShopping.APIGateway.csproj", "{F4E5A0CB-6410-4393-8CA6-C1FD8CC45990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.APIGateway", "GeekShopping.APIGateway\GeekShopping.APIGateway.csproj", "{F4E5A0CB-6410-4393-8CA6-C1FD8CC45990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{ADB89325-3C0C-44DA-ADFE-DB35AA28810A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB89325-3C0C-44DA-ADFE-DB35AA28810A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADB89325-3C0C-44DA-ADFE-DB35AA28810A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33CC2A54-B5AE-45B7-BB85-3195914D5495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33CC2A54-B5AE-45B7-BB85-3195914D5495}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33CC2A54-B5AE-45B7-BB85-3195914D5495}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33CC2A54-B5AE-45B7-BB85-3195914D5495}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0BE35CE2-AABE-4FC4-8621-67692CBDA982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0BE35CE2-AABE-4FC4-8621-67692CBDA982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BE35CE2-AABE-4FC4-8621-67692CBDA982}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,7 +85,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADB89325-3C0C-44DA-ADFE-DB35AA28810A} = {40623FA8-A2AE-4689-8C92-C175E6AB636B}
-		{33CC2A54-B5AE-45B7-BB85-3195914D5495} = {AABED3C2-03EC-4AFA-B75A-0C8C68D6AC7A}
 		{0BE35CE2-AABE-4FC4-8621-67692CBDA982} = {AABED3C2-03EC-4AFA-B75A-0C8C68D6AC7A}
 		{AD73AC04-59D3-4850-8E8A-45A2717DEB2B} = {AABED3C2-03EC-4AFA-B75A-0C8C68D6AC7A}
 		{289BED63-C8EC-43E5-B74E-D85394AC478A} = {AABED3C2-03EC-4AFA-B75A-0C8C68D6AC7A}

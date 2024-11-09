@@ -8,17 +8,14 @@ namespace GeekShopping.Web.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IProductService _productService;
         private readonly ICartService _cartService;
         private readonly ICouponService _couponService;
 
         public CartController(
-            IProductService productService,
             ICartService cartService,
             ICouponService couponService
         )
         {
-            _productService = productService;
             _cartService = cartService;
             _couponService = couponService;
         }

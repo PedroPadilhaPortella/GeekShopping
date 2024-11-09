@@ -1,27 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GeekShopping.Web.Models.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.Web.Models
 {
-    public class Product
+    [Table("product")]
+    public class Product : BaseEntity
     {
-        public long Id { get; set; }
+        [Column("name")]
+        [Required]
+        [StringLength(150)]
         public string Name { get; set; }
+
+        [Column("price")]
+        [Required]
+        [Range(1, 10000)]
         public decimal Price { get; set; }
+
+        [Column("description")]
+        [StringLength(500)]
         public string Description { get; set; }
+
+        [Column("category_name")]
+        [StringLength(50)]
         public string CategoryName { get; set; }
-        public string ImageURL { get; set; }
 
-        [Range(1, 100)]
-        public int Count { get; set; } = 1;
-
-        public string FormattedName()
-        {
-            return (Name.Length < 24) ? Name : $"{Name[..21]}...";
-        }
-
-        public string FormattedDescription()
-        {
-            return (Description.Length < 355) ? Description : $"{Description[..352]}...";
-        }
+        [Column("image_url")]
+        [StringLength(300)]
+        public string ImageUrl { get; set; }
     }
 }

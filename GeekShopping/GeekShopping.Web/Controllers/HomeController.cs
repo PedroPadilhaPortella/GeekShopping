@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Interfaces;
+﻿using GeekShopping.Web.DTO;
+using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +11,15 @@ namespace GeekShopping.Web.Controllers
   public class HomeController : Controller
   {
     private readonly ILogger<HomeController> _logger;
-    private readonly IProductService _productService;
+    private readonly IProductRepository _productRepository;
     private readonly ICartService _cartService;
 
     public HomeController(
-        IProductService productService, 
+        IProductRepository productRepository, 
         ICartService cartService,
         ILogger<HomeController> logger
     ) {
-        _productService = productService;
+        _productRepository = productRepository;
         _cartService = cartService;
         _logger = logger;
     }
@@ -26,7 +27,7 @@ namespace GeekShopping.Web.Controllers
     public async Task<IActionResult> Index()
     {
       var accessToken = await HttpContext.GetTokenAsync("access_token");
-      var products = await _productService.FindAll(accessToken);
+      var products = await _productRepository.FindAll();
       return View(products);
     }
 
@@ -34,14 +35,14 @@ namespace GeekShopping.Web.Controllers
     public async Task<IActionResult> Details(int id)
     {
         var accessToken = await HttpContext.GetTokenAsync("access_token");
-        var product = await _productService.FindById(id, accessToken);
+        var product = await _productRepository.FindById(id);
         return View(product);
     }
 
     [Authorize]
     [HttpPost]
     [ActionName("Details")]
-    public async Task<IActionResult> PostDetails(Product product)
+    public async Task<IActionResult> PostDetails(ProductDTO product)
     {
         var accessToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -54,7 +55,7 @@ namespace GeekShopping.Web.Controllers
         CartDetail cartDetail = new CartDetail() {
             Count = product.Count,
             ProductId = product.Id,
-            Product = await _productService.FindById(product.Id, accessToken)
+            Product = await _productRepository.FindById(product.Id)
         };
 
         List<CartDetail> cartDetails = new List<CartDetail>();

@@ -1,8 +1,8 @@
 using AutoMapper;
-using GeekShopping.ProductAPI.DTO;
-using GeekShopping.ProductAPI.Models;
+using GeekShopping.Web.DTO;
+using GeekShopping.Web.Models;
 
-namespace GeekShopping.ProductAPI.Data
+namespace GeekShopping.Web.Data
 {
   public class AutoMapperConfiguration
   {

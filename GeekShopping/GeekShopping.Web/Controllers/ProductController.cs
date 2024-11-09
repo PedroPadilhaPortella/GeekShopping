@@ -4,22 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using GeekShopping.Web.Utils;
 using Microsoft.AspNetCore.Authentication;
+using GeekShopping.Web.DTO;
 
 namespace GeekShopping.Web.Controllers
 {
   public class ProductController : Controller
   {
-    private readonly IProductService _productService;
+    private readonly IProductRepository _productRepository;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductRepository productRepository)
     {
-      _productService = productService;
+        _productRepository = productRepository;
     }
 
     public async Task<IActionResult> Index()
     {
       var accessToken = await GetAccessToken();
-      var products = await _productService.FindAll(accessToken);
+      var products = await _productRepository.FindAll();
       return View(products);
     }
 
@@ -30,12 +31,12 @@ namespace GeekShopping.Web.Controllers
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Create(Product product)
+    public async Task<IActionResult> Create(ProductDTO product)
     {
       if (ModelState.IsValid)
       {
         var accessToken = await GetAccessToken();
-        var response = await _productService.Create(product, accessToken);
+        var response = await _productRepository.Create(product);
         if (response != null) return RedirectToAction(nameof(Index));
       }
       return View(product);
@@ -44,18 +45,18 @@ namespace GeekShopping.Web.Controllers
     public async Task<IActionResult> Update(int id)
     {
       var accessToken = await GetAccessToken();
-      var product = await _productService.FindById(id, accessToken);
+      var product = await _productRepository.FindById(id);
       return View(product);
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Update(Product product)
+    public async Task<IActionResult> Update(ProductDTO product)
     {
       if (ModelState.IsValid)
       {
         var accessToken = await GetAccessToken();
-        var response = await _productService.Update(product, accessToken);
+        var response = await _productRepository.Update(product);
         if (response != null) return RedirectToAction(nameof(Index));
       }
       return View(product);
@@ -65,7 +66,7 @@ namespace GeekShopping.Web.Controllers
     public async Task<IActionResult> Delete(int id)
     {
       var accessToken = await GetAccessToken();
-      var model = await _productService.FindById(id, accessToken);
+      var model = await _productRepository.FindById(id);
       if (model != null) return View(model);
       return NotFound();
     }
@@ -75,7 +76,7 @@ namespace GeekShopping.Web.Controllers
     public async Task<IActionResult> Delete(Product product)
     {
       var accessToken = await GetAccessToken();
-      var response = await _productService.Delete(product.Id, accessToken);
+      var response = await _productRepository.Delete(product.Id);
       if (response) return RedirectToAction(nameof(Index));
       return View(product);
     }

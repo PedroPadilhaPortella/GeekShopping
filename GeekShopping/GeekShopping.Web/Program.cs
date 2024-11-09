@@ -1,6 +1,9 @@
+using GeekShopping.Web.Data;
 using GeekShopping.Web.Interfaces;
+using GeekShopping.Web.Repository;
 using GeekShopping.Web.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient<IProductService, ProductService>(
-    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
+    builder.Configuration["ConnectionStrings:MySqlConnectionString"],
+    new MySqlServerVersion(new Version(8, 0, 39)))
 );
+
+builder.Services.AddSingleton(AutoMapperConfiguration.RegisterMaps().CreateMapper());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+//builder.Services.AddHttpClient<IProductService, ProductService>(
+//    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+//);
 
 builder.Services.AddHttpClient<ICartService, CartService>(
     s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])

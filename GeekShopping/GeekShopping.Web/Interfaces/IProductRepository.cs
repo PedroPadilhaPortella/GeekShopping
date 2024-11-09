@@ -1,6 +1,6 @@
-using GeekShopping.ProductAPI.DTO;
+using GeekShopping.Web.DTO;
 
-namespace GeekShopping.ProductAPI.Repository
+namespace GeekShopping.Web.Interfaces
 {
   public interface IProductRepository
   {
