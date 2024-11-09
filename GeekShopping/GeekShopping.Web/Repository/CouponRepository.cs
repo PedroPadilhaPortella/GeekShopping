@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using GeekShopping.CouponAPI.Data;
-using GeekShopping.CouponAPI.DTO;
+using GeekShopping.Web.Data;
+using GeekShopping.Web.DTO;
+using GeekShopping.Web.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace GeekShopping.CouponAPI.Repository
+namespace GeekShopping.Web.Repository
 {
     public class CouponRepository: ICouponRepository
     {
@@ -16,7 +17,7 @@ namespace GeekShopping.CouponAPI.Repository
             _mapper = mapper;
         }
 
-        public async Task<CouponDTO> GetCouponByCouponCode(string couponCode)
+        public async Task<CouponDTO> GetCoupon(string couponCode)
         {
             var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Code == couponCode);
             return _mapper.Map<CouponDTO>(coupon);

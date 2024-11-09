@@ -1,9 +1,19 @@
-﻿namespace GeekShopping.Web.Models
+﻿using GeekShopping.Web.Models.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GeekShopping.Web.Models
 {
-    public class Coupon
+    [Table("coupon")]
+    public class Coupon : BaseEntity
     {
-        public long Id { get; set; }
+        [Column("code")]
+        [Required]
+        [StringLength(30)]
         public string Code { get; set; }
+
+        [Column("discount_amount")]
+        [Required]
         public decimal DiscountAmount { get; set; }
     }
 }

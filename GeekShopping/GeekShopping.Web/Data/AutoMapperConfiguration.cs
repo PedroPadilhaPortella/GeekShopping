@@ -11,6 +11,7 @@ namespace GeekShopping.Web.Data
       return new MapperConfiguration((config) =>
       {
         config.CreateMap<Product, ProductDTO>().ReverseMap();
+        config.CreateMap<Coupon, CouponDTO>().ReverseMap();
       });
     }
   }

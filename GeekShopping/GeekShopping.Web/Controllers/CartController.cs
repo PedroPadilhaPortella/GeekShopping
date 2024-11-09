@@ -1,5 +1,6 @@
 ﻿using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
+using GeekShopping.Web.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,15 @@ namespace GeekShopping.Web.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
-        private readonly ICouponService _couponService;
+        private readonly ICouponRepository _couponRepository;
 
         public CartController(
             ICartService cartService,
-            ICouponService couponService
+            ICouponRepository couponService
         )
         {
             _cartService = cartService;
-            _couponService = couponService;
+            _couponRepository = couponService;
         }
 
         [Authorize]
@@ -104,7 +105,7 @@ namespace GeekShopping.Web.Controllers
             if (response?.CartHeader != null) {
 
                 if (!string.IsNullOrEmpty(response.CartHeader.CouponCode)) {
-                    var coupon = await _couponService.GetCoupon(response.CartHeader.CouponCode, accessToken);
+                    var coupon = await _couponRepository.GetCoupon(response.CartHeader.CouponCode);
 
                     if (coupon?.Code != null) {
                         response.CartHeader.DiscountAmount = coupon.DiscountAmount;

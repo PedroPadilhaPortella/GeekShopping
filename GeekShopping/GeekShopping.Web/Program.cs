@@ -21,6 +21,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+
 //builder.Services.AddHttpClient<IProductService, ProductService>(
 //    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
 //);
@@ -29,9 +31,9 @@ builder.Services.AddHttpClient<ICartService, CartService>(
     s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])
 );
 
-builder.Services.AddHttpClient<ICouponService, CouponService>(
-    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
-);
+//builder.Services.AddHttpClient<ICouponService, CouponService>(
+//    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
+//);
 
 // Configure IdentityServer Authentication
 builder.Services
