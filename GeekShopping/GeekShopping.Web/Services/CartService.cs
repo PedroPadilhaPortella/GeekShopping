@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Interfaces;
+﻿using GeekShopping.Web.DTO;
+using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
 using GeekShopping.Web.Utils;
 using System.Net.Http.Headers;
@@ -15,27 +16,27 @@ namespace GeekShopping.Web.Services
             _httpClient = httpClient ?? throw new ArgumentException(nameof(httpClient));
         }
 
-        public async Task<Cart> FindCardByUserId(string userId, string token)
+        public async Task<CartDTO> FindCardByUserId(string userId, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.GetAsync($"{basePath}/{userId}");
-            return await response.ReadContentAs<Cart>();
+            return await response.ReadContentAs<CartDTO>();
         }
 
-        public async Task<Cart> AddItemToCart(Cart cart, string token)
+        public async Task<CartDTO> AddItemToCart(CartDTO cart, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.PostAsJson(basePath, cart);
             if (!response.IsSuccessStatusCode) throw new Exception("Something went wrong");
-            return await response.ReadContentAs<Cart>();
+            return await response.ReadContentAs<CartDTO>();
         }
 
-        public async Task<Cart> UpdateCartItem(Cart cart, string token)
+        public async Task<CartDTO> UpdateCartItem(CartDTO cart, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.PutAsJson(basePath, cart);
             if (!response.IsSuccessStatusCode) throw new Exception("Something went wrong");
-            return await response.ReadContentAs<Cart>();
+            return await response.ReadContentAs<CartDTO>();
         }
 
         public async Task<bool> RemoveFromCart(long id, string token)
@@ -46,12 +47,12 @@ namespace GeekShopping.Web.Services
             return await response.ReadContentAs<bool>();
         }
 
-        public async Task<Cart> ClearCart(string userId, string token)
+        public async Task<CartDTO> ClearCart(string userId, string token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> ApplyCoupon(Cart cart, string token)
+        public async Task<bool> ApplyCoupon(CartDTO cart, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.PostAsJson($"{basePath}/apply-coupon", cart);
@@ -67,10 +68,10 @@ namespace GeekShopping.Web.Services
             return await response.ReadContentAs<bool>();
         }
 
-        public async Task<object> Checkout(CartHeader cartHeader, string token)
+        public async Task<object> Checkout(CartHeaderDTO cartHeaderDTO, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.PostAsJson($"{basePath}/checkout", cartHeader);
+            var response = await _httpClient.PostAsJson($"{basePath}/checkout", cartHeaderDTO);
 
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<CartHeader>();

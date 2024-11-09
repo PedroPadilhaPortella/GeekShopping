@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Interfaces;
+﻿using GeekShopping.Web.DTO;
+using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
 using GeekShopping.Web.Repository;
 using Microsoft.AspNetCore.Authentication;
@@ -10,29 +11,54 @@ namespace GeekShopping.Web.Controllers
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private readonly ICartRepository _cartRepository;
         private readonly ICouponRepository _couponRepository;
 
         public CartController(
             ICartService cartService,
+            ICartRepository cartRepository,
             ICouponRepository couponService
         )
         {
             _cartService = cartService;
             _couponRepository = couponService;
+            _cartRepository = cartRepository;
         }
 
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var cart = await RetrieveCart();
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+
+            var cart = await _cartRepository.GetCartByUserId(userId);
+
+            if (cart.CartHeader != null)
+            {
+
+                if (!string.IsNullOrEmpty(cart.CartHeader.CouponCode))
+                {
+                    var coupon = await _couponRepository.GetCoupon(cart.CartHeader.CouponCode);
+
+                    if (coupon?.Code != null)
+                    {
+                        cart.CartHeader.DiscountAmount = coupon.DiscountAmount;
+                    }
+                }
+                foreach (var detail in cart.CartDetails)
+                {
+                    cart.CartHeader.PurchaseAmount += (detail.Product.Price * detail.Count);
+                }
+
+                cart.CartHeader.PurchaseAmount -= cart.CartHeader.DiscountAmount;
+            }
+
             return View(cart);
         }
 
         [Authorize]
         public async Task<IActionResult> Remove(long id)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var response = await _cartService.RemoveFromCart(id, accessToken);
+            var response = await _cartRepository.RemoveCartItem(id);
 
             if (response) return RedirectToAction(nameof(Index));
 
@@ -41,10 +67,10 @@ namespace GeekShopping.Web.Controllers
 
         [Authorize]
         [HttpPost("ApplyCoupon")]
-        public async Task<IActionResult> ApplyCoupon(Cart cart)
+        public async Task<IActionResult> ApplyCoupon(CartDTO cart)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var response = await _cartService.ApplyCoupon(cart, accessToken);
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+            var response = await _cartRepository.ApplyCoupon(userId, cart.CartHeader.CouponCode);
 
             if (response) return RedirectToAction(nameof(Index));
             return View();
@@ -54,10 +80,9 @@ namespace GeekShopping.Web.Controllers
         [HttpPost("RemoveCoupon")]
         public async Task<IActionResult> RemoveCoupon()
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
             var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
 
-            var response = await _cartService.RemoveCoupon(userId, accessToken);
+            var response = await _cartRepository.RemoveCoupon(userId);
 
             if (response) return RedirectToAction(nameof(Index));
             return View();
@@ -66,24 +91,51 @@ namespace GeekShopping.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
-            var cart = await RetrieveCart();
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+
+            var cart = await _cartRepository.GetCartByUserId(userId);
+
+            if (cart.CartHeader != null)
+            {
+
+                if (!string.IsNullOrEmpty(cart.CartHeader.CouponCode))
+                {
+                    var coupon = await _couponRepository.GetCoupon(cart.CartHeader.CouponCode);
+
+                    if (coupon?.Code != null)
+                    {
+                        cart.CartHeader.DiscountAmount = coupon.DiscountAmount;
+                    }
+                }
+                foreach (var detail in cart.CartDetails)
+                {
+                    cart.CartHeader.PurchaseAmount += (detail.Product.Price * detail.Count);
+                }
+
+                cart.CartHeader.PurchaseAmount -= cart.CartHeader.DiscountAmount;
+            }
+
             return View(cart);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(Cart cart)
+        public async Task<IActionResult> Checkout(CartDTO cartDTO)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var response = await _cartService.Checkout(cart.CartHeader, accessToken);
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
 
-            if (response != null && response.GetType() == typeof(string)) {
-                TempData["Error"] = response;
-                return RedirectToAction(nameof(Checkout));
-            }
-            else if (response != null) {
-                return RedirectToAction(nameof(Confirmation));
-            }
-            
+            var cart = await _cartRepository.GetCartByUserId(userId);
+
+
+            //var response = await _cartService.Checkout(cart.CartHeader, accessToken);
+
+            //if (response != null && response.GetType() == typeof(string)) {
+            //    TempData["Error"] = response;
+            //    return RedirectToAction(nameof(Checkout));
+            //}
+            //else if (response != null) {
+            //    return RedirectToAction(nameof(Confirmation));
+            //}
+
             return View(cart);
         }
 
@@ -91,34 +143,6 @@ namespace GeekShopping.Web.Controllers
         public IActionResult Confirmation()
         {
             return View();
-        }
-
-
-
-        private async Task<Cart> RetrieveCart()
-        {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
-
-            var response = await _cartService.FindCardByUserId(userId, accessToken);
-
-            if (response?.CartHeader != null) {
-
-                if (!string.IsNullOrEmpty(response.CartHeader.CouponCode)) {
-                    var coupon = await _couponRepository.GetCoupon(response.CartHeader.CouponCode);
-
-                    if (coupon?.Code != null) {
-                        response.CartHeader.DiscountAmount = coupon.DiscountAmount;
-                    }
-                }
-                foreach (var detail in response.CartDetails)
-                {
-                    response.CartHeader.PurchaseAmount += (detail.Product.Price * detail.Count);
-                }
-
-                response.CartHeader.PurchaseAmount -= response.CartHeader.DiscountAmount;
-            }
-            return response;
         }
     }
 }

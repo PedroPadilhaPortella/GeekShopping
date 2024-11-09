@@ -1,16 +1,16 @@
-﻿using GeekShopping.Web.Models;
+﻿using GeekShopping.Web.DTO;
 
 namespace GeekShopping.Web.Interfaces
 {
     public interface ICartService
     {
-        Task<Cart> FindCardByUserId(string userId, string token);
-        Task<Cart> AddItemToCart(Cart cart, string token);
-        Task<Cart> UpdateCartItem(Cart cart, string token);
+        Task<CartDTO> FindCardByUserId(string userId, string token);
+        Task<CartDTO> AddItemToCart(CartDTO cart, string token);
+        Task<CartDTO> UpdateCartItem(CartDTO cart, string token);
         Task<bool> RemoveFromCart(long id, string token);
-        Task<bool> ApplyCoupon(Cart cart, string token);
+        Task<bool> ApplyCoupon(CartDTO cart, string token);
         Task<bool> RemoveCoupon(string userId, string token);
-        Task<Cart> ClearCart(string userId, string token);
-        Task<object> Checkout(CartHeader cartHeader, string token);
+        Task<CartDTO> ClearCart(string userId, string token);
+        Task<object> Checkout(CartHeaderDTO cartHeader, string token);
     }
 }

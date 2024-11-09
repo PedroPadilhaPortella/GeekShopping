@@ -21,6 +21,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
 //builder.Services.AddHttpClient<IProductService, ProductService>(

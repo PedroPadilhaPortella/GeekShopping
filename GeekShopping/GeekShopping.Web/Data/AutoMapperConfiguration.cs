@@ -12,6 +12,9 @@ namespace GeekShopping.Web.Data
       {
         config.CreateMap<Product, ProductDTO>().ReverseMap();
         config.CreateMap<Coupon, CouponDTO>().ReverseMap();
+        config.CreateMap<CartHeader, CartHeaderDTO>().ReverseMap();
+        config.CreateMap<CartDetail, CartDetailDTO>().ReverseMap();
+        config.CreateMap<Cart, CartDTO>().ReverseMap();
       });
     }
   }

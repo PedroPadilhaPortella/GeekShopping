@@ -12,14 +12,17 @@ namespace GeekShopping.Web.Controllers
   {
     private readonly ILogger<HomeController> _logger;
     private readonly IProductRepository _productRepository;
+    private readonly ICartRepository _cartRepository;
     private readonly ICartService _cartService;
 
     public HomeController(
-        IProductRepository productRepository, 
+        IProductRepository productRepository,
+        ICartRepository cartRepository,
         ICartService cartService,
         ILogger<HomeController> logger
     ) {
         _productRepository = productRepository;
+        _cartRepository = cartRepository;
         _cartService = cartService;
         _logger = logger;
     }
@@ -44,25 +47,23 @@ namespace GeekShopping.Web.Controllers
     [ActionName("Details")]
     public async Task<IActionResult> PostDetails(ProductDTO product)
     {
-        var accessToken = await HttpContext.GetTokenAsync("access_token");
-
-        Cart cart = new Cart() {
-            CartHeader = new CartHeader() {
+        CartDTO cart = new CartDTO() {
+            CartHeader = new CartHeaderDTO() {
                 UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
             }
         };
 
-        CartDetail cartDetail = new CartDetail() {
+        CartDetailDTO cartDetail = new CartDetailDTO() {
             Count = product.Count,
             ProductId = product.Id,
             Product = await _productRepository.FindById(product.Id)
         };
 
-        List<CartDetail> cartDetails = new List<CartDetail>();
+        List<CartDetailDTO> cartDetails = new List<CartDetailDTO>();
         cartDetails.Add(cartDetail);
         cart.CartDetails = cartDetails;
 
-        var response = await _cartService.AddItemToCart(cart, accessToken);
+        var response = await _cartRepository.SaveOrUpdateCart(cart);
         if (response != null) {
             return RedirectToAction(nameof(Index));
         }
