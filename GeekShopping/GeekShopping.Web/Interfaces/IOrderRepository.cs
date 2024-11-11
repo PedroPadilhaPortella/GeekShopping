@@ -1,10 +1,12 @@
-﻿using GeekShopping.Web.Models;
+﻿using GeekShopping.Web.DTO;
+using GeekShopping.Web.Models;
 
 namespace GeekShopping.Web.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<OrderHeader> AddOrder(OrderHeader orderHeader);
+        Task<OrderHeaderDTO> AddOrder(OrderHeader orderHeader);
         Task UpdateOrderPaymentStatus(long orderHeaderId, bool status);
+        Task<List<OrderHeaderDTO>> GetOrders(string userId);
     }
 }

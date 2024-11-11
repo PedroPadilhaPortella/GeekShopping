@@ -19,7 +19,6 @@ namespace GeekShopping.Web.Controllers
 
     public async Task<IActionResult> Index()
     {
-      var accessToken = await GetAccessToken();
       var products = await _productRepository.FindAll();
       return View(products);
     }
@@ -35,7 +34,6 @@ namespace GeekShopping.Web.Controllers
     {
       if (ModelState.IsValid)
       {
-        var accessToken = await GetAccessToken();
         var response = await _productRepository.Create(product);
         if (response != null) return RedirectToAction(nameof(Index));
       }
@@ -44,7 +42,6 @@ namespace GeekShopping.Web.Controllers
 
     public async Task<IActionResult> Update(int id)
     {
-      var accessToken = await GetAccessToken();
       var product = await _productRepository.FindById(id);
       return View(product);
     }
@@ -55,7 +52,6 @@ namespace GeekShopping.Web.Controllers
     {
       if (ModelState.IsValid)
       {
-        var accessToken = await GetAccessToken();
         var response = await _productRepository.Update(product);
         if (response != null) return RedirectToAction(nameof(Index));
       }
@@ -65,7 +61,6 @@ namespace GeekShopping.Web.Controllers
     [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
-      var accessToken = await GetAccessToken();
       var model = await _productRepository.FindById(id);
       if (model != null) return View(model);
       return NotFound();
@@ -75,15 +70,9 @@ namespace GeekShopping.Web.Controllers
     [Authorize(Roles = Role.Admin)]
     public async Task<IActionResult> Delete(Product product)
     {
-      var accessToken = await GetAccessToken();
       var response = await _productRepository.Delete(product.Id);
       if (response) return RedirectToAction(nameof(Index));
       return View(product);
-    }
-
-    private Task<string> GetAccessToken()
-    {
-        return HttpContext.GetTokenAsync("access_token");
     }
   }
 }
