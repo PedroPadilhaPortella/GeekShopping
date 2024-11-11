@@ -6,5 +6,6 @@ namespace GeekShopping.OrderAPI.Repository
     {
         Task<bool> AddOrder(OrderHeader orderHeader);
         Task UpdateOrderPaymentStatus(long orderHeaderId, bool status);
+        Task<List<OrderHeader>> GetOrdersByUserId(string userId);
     }
 }

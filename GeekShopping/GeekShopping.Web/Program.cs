@@ -20,6 +20,10 @@ builder.Services.AddHttpClient<ICouponService, CouponService>(
     s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
 );
 
+builder.Services.AddHttpClient<IOrderService, OrderService>(
+    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:OrderAPI"])
+);
+
 // Configure IdentityServer Authentication
 builder.Services
   .AddAuthentication(options =>

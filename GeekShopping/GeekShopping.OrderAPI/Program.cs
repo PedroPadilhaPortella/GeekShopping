@@ -20,6 +20,10 @@ databaseContextBuilder.UseMySql(
     new MySqlServerVersion(new Version(8, 0, 39))
 );
 
+// Configure AutoMapper
+builder.Services.AddSingleton(AutoMapperConfiguration.RegisterMaps().CreateMapper());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddSingleton(new OrderRepository(databaseContextBuilder.Options));
 
 builder.Services.AddHostedService<RabbitMQCheckoutConsumer>();

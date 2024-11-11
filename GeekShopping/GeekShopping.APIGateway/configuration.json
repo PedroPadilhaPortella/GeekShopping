@@ -162,6 +162,25 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": [ "geek_shopping" ]
       }
+    },
+
+
+    //"OrderAPI": "https://localhost:4455"
+    {
+      "UpstreamPathTemplate": "/api/v1/order/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/v1/order/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 4455
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "geek_shopping" ]
+      }
     }
   ]
 }

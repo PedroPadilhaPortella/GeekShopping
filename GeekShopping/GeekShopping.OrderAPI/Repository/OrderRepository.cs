@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GeekShopping.OrderAPI.Models;
 using GeekShopping.OrderAPI.Data;
+using GeekShopping.OrderAPI.DTO;
+using AutoMapper;
 
 namespace GeekShopping.OrderAPI.Repository
 {
@@ -32,6 +34,16 @@ namespace GeekShopping.OrderAPI.Repository
                 header.PaymentStatus = status;
                 await _database.SaveChangesAsync();
             };
+        }
+
+        public async Task<List<OrderHeader>> GetOrdersByUserId(string userId)
+        {
+            await using var _database = new ApplicationDbContext(_context);
+            var orders = await _database.Headers
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderDetails).ToListAsync();
+
+            return orders;
         }
     }
 }

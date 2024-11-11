@@ -1,5 +1,6 @@
 ﻿using GeekShopping.OrderAPI.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GeekShopping.OrderAPI.Models
 {
@@ -8,6 +9,7 @@ namespace GeekShopping.OrderAPI.Models
     {
         public long OrderHeaderId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("OrderHeaderId")]
         public virtual OrderHeader OrderHeader { get; set; }
 
