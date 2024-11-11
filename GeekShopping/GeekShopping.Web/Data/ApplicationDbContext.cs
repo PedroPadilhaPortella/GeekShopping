@@ -9,6 +9,8 @@ namespace GeekShopping.Web.Data
     public DbSet<Coupon> Coupons { get; set; }
     public DbSet<CartDetail> CartDetails { get; set; }
     public DbSet<CartHeader> CartHeaders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+    public DbSet<OrderHeader> OrderHeaders { get; set; }
 
     public ApplicationDbContext() { }
 

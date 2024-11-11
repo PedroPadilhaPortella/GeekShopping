@@ -1,6 +1,6 @@
 ﻿using GeekShopping.Web.DTO;
 
-namespace GeekShopping.Web.Repository
+namespace GeekShopping.Web.Interfaces
 {
     public interface ICouponRepository
     {

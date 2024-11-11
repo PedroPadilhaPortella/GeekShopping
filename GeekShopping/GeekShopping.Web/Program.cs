@@ -1,7 +1,6 @@
 using GeekShopping.Web.Data;
 using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Repository;
-using GeekShopping.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -25,17 +24,8 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
-//builder.Services.AddHttpClient<IProductService, ProductService>(
-//    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
-//);
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-builder.Services.AddHttpClient<ICartService, CartService>(
-    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])
-);
-
-//builder.Services.AddHttpClient<ICouponService, CouponService>(
-//    s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
-//);
 
 // Configure IdentityServer Authentication
 builder.Services

@@ -1,8 +1,6 @@
 ﻿using GeekShopping.Web.DTO;
 using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
-using GeekShopping.Web.Repository;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,19 +8,19 @@ namespace GeekShopping.Web.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ICartService _cartService;
         private readonly ICartRepository _cartRepository;
         private readonly ICouponRepository _couponRepository;
+        private readonly IOrderRepository _orderRepository;
 
         public CartController(
-            ICartService cartService,
             ICartRepository cartRepository,
-            ICouponRepository couponService
+            ICouponRepository couponService,
+            IOrderRepository orderRepository
         )
         {
-            _cartService = cartService;
             _couponRepository = couponService;
             _cartRepository = cartRepository;
+            _orderRepository = orderRepository;
         }
 
         [Authorize]
@@ -125,18 +123,45 @@ namespace GeekShopping.Web.Controllers
 
             var cart = await _cartRepository.GetCartByUserId(userId);
 
+            OrderHeader order = new()
+            {
+                UserId = cart.CartHeader.UserId,
+                FirstName = cartDTO.CartHeader.FirstName,
+                LastName = cartDTO.CartHeader.LastName,
+                OrderDetails = new List<OrderDetail>(),
+                CardNumber = cartDTO.CartHeader.CardNumber,
+                CouponCode = cart.CartHeader.CouponCode,
+                CVV = cartDTO.CartHeader.CVV,
+                DiscountAmount = cartDTO.CartHeader.DiscountAmount,
+                Email = cartDTO.CartHeader.Email,
+                ExpireDate = cartDTO.CartHeader.ExpireDate,
+                OrderTime = DateTime.Now,
+                PurchaseAmount = cartDTO.CartHeader.PurchaseAmount,
+                PaymentStatus = false,
+                Phone = cartDTO.CartHeader.Phone,
+                DateTime = DateTime.Now
+            };
 
-            //var response = await _cartService.Checkout(cart.CartHeader, accessToken);
+            foreach (var cartDetail in cart.CartDetails)
+            {
+                OrderDetail detail = new()
+                {
+                    ProductId = cartDetail.ProductId,
+                    ProductName = cartDetail.Product.Name,
+                    Price = cartDetail.Product.Price,
+                    Count = cartDetail.Count,
+                };
+                order.CartTotalItems += cartDetail.Count;
+                order.OrderDetails.Add(detail);
+            }
 
-            //if (response != null && response.GetType() == typeof(string)) {
-            //    TempData["Error"] = response;
-            //    return RedirectToAction(nameof(Checkout));
-            //}
-            //else if (response != null) {
-            //    return RedirectToAction(nameof(Confirmation));
-            //}
+            var orderDb = await _orderRepository.AddOrder(order);
+            
+            await _cartRepository.ClearCart(userId);
 
-            return View(cart);
+            await _orderRepository.UpdateOrderPaymentStatus(orderDb.Id, true);
+
+            return RedirectToAction(nameof(Confirmation));
         }
 
         [HttpGet]

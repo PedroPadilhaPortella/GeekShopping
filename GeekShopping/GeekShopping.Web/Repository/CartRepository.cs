@@ -165,11 +165,5 @@ namespace GeekShopping.Web.Repository
 
             return false;
         }
-
-        public async Task<object> Checkout(CartHeaderDTO cartHeaderDTO)
-        {
-            // recupera o carrinho, formata ele e salva no orderAPI
-            return null;
-        }
     }
 }
