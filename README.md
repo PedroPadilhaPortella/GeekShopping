@@ -2,7 +2,7 @@
 
 ## Project Architeture
 
-![image]()
+![image](https://github.com/PedroPadilhaPortella/Arquitetura_de_Microsservicos_com_Dotnet/blob/feature/monolith/arquitetura-monolito-zoom.png)
 
 To run the project, clone it with ´git clone https://github.com/PedroPadilhaPortella/Arquitetura_de_Microsservicos_com_Dotnet.git´, then checkout to ´feature/monolith´ branch. 
 Open the **GeekShopping** solution in Visual Studio and restore it.
