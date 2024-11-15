@@ -32,11 +32,9 @@
             <a asp-controller="Product" asp-action="Update" class="btn btn-success" asp-route-id="@product.Id">
               Edit
             </a>
-            @if(User.IsInRole("Admin")) {
-              <a asp-controller="Product" asp-action="Delete" class="btn btn-danger" asp-route-id="@product.Id">
-                <i class="fas fa-trash"></i>
-              </a>
-            }
+            <a asp-controller="Product" asp-action="Delete" class="btn btn-danger" asp-route-id="@product.Id">
+            <i class="fas fa-trash"></i>
+            </a>
           </td>
         </tr>
       }
