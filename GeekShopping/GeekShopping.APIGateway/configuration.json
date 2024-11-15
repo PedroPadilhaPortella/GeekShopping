@@ -146,25 +146,6 @@
     },
 
 
-    //"CouponAPI": "https://localhost:4450"
-    {
-      "UpstreamPathTemplate": "/api/v1/coupon/{couponCode}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/api/v1/coupon/{couponCode}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 4450
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "geek_shopping" ]
-      }
-    },
-
-
     //"OrderAPI": "https://localhost:4455"
     {
       "UpstreamPathTemplate": "/api/v1/order/{id}",
@@ -181,6 +162,57 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": [ "geek_shopping" ]
       }
-    }
+    },
+
+
+    //"CouponAPI": "https://localhost:4450"
+    {
+      "UpstreamPathTemplate": "/api/v1/coupon",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "DownstreamPathTemplate": "/api/v1/coupon",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 4450
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "geek_shopping" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/v1/coupon/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "DownstreamPathTemplate": "/api/v1/coupon/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 4450
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "geek_shopping" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/v1/coupon/{couponCode}/code",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/v1/coupon/{couponCode}/code",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 4450
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "geek_shopping" ]
+      }
+    },
   ]
 }

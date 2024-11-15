@@ -86,8 +86,6 @@ namespace GeekShopping.CartAPI.Controllers
             {
                 string accessToken = Request.Headers["Authorization"];
                 CouponDTO coupon = await _couponRepository.GetCoupon(checkoutHeaderDTO.CouponCode, accessToken);
-
-                if(checkoutHeaderDTO.DiscountAmount != coupon.DiscountAmount) return StatusCode(412);
             }
 
             checkoutHeaderDTO.CartDetails = cart.CartDetails;
