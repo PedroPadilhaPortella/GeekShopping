@@ -3,6 +3,8 @@ using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 
 namespace GeekShopping.Web.Controllers
 {
@@ -123,6 +125,10 @@ namespace GeekShopping.Web.Controllers
 
             var cart = await _cartRepository.GetCartByUserId(userId);
 
+            if (!ModelState.IsValid) {
+                return View(cart);
+            }
+
             OrderHeader order = new()
             {
                 UserId = cart.CartHeader.UserId,
@@ -159,6 +165,8 @@ namespace GeekShopping.Web.Controllers
             
             await _cartRepository.ClearCart(userId);
 
+            this.SendEmail(order);
+
             await _orderRepository.UpdateOrderPaymentStatus(orderDb.Id, true);
 
             return RedirectToAction(nameof(Confirmation));
@@ -168,6 +176,24 @@ namespace GeekShopping.Web.Controllers
         public IActionResult Confirmation()
         {
             return View();
+        }
+
+        private void SendEmail(OrderHeader order)
+        {
+            SmtpClient smtpClient = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
+            {
+                Credentials = new NetworkCredential("23427d12493947", "1d387ba2cd6e0c"),
+                EnableSsl = true
+            };
+            MailMessage mail = new MailMessage
+            {
+                From = new MailAddress("geekshopping@gmail.com"),
+                Subject = "GeekShopping - Order Notification",
+                Body = $"Order - {order.Id} has been created successfully.",
+                IsBodyHtml = false
+            };
+            mail.To.Add(order.Email);
+            smtpClient.Send(mail);
         }
     }
 }
