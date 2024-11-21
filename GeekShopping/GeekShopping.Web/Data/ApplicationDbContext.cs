@@ -1,10 +1,11 @@
 ﻿using GeekShopping.Web.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeekShopping.Web.Data
 {
-  public class ApplicationDbContext : DbContext
-  {
+  public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    {
     public DbSet<Product> Products { get; set; }
     public DbSet<Coupon> Coupons { get; set; }
     public DbSet<CartDetail> CartDetails { get; set; }
@@ -18,6 +19,8 @@ namespace GeekShopping.Web.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Product>().HasData(new Product
         {
         Id = 2,
