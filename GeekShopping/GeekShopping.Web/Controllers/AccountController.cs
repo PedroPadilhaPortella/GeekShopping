@@ -261,8 +261,7 @@ namespace GeekShopping.Web.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
 
                 var user = new ApplicationUser
                 {
@@ -274,8 +273,8 @@ namespace GeekShopping.Web.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
+                
+                if (result.Succeeded) {
                     if (!_roleManager.RoleExistsAsync(model.RoleName).GetAwaiter().GetResult())
                     {
                         var userRole = new IdentityRole
@@ -299,15 +298,13 @@ namespace GeekShopping.Web.Controllers
 
                     var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
                     var loginresult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: true);
-                    if (loginresult.Succeeded)
-                    {
+
+                    if (loginresult.Succeeded) {
                         var checkuser = await _userManager.FindByNameAsync(model.Username);
                         await _events.RaiseAsync(new UserLoginSuccessEvent(checkuser.UserName, checkuser.Id, checkuser.UserName, clientId: context?.Client.ClientId));
 
-                        if (context != null)
-                        {
-                            if (context.IsNativeClient())
-                            {
+                        if (context != null) {
+                            if (context.IsNativeClient()) {
                                 // The client is native, so this change in how to
                                 // return the response is for better UX for the end user.
                                 return this.LoadingPage("Redirect", model.ReturnUrl);
@@ -333,6 +330,10 @@ namespace GeekShopping.Web.Controllers
                         }
                     }
 
+                } else {
+                    foreach (var error in result.Errors) {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
