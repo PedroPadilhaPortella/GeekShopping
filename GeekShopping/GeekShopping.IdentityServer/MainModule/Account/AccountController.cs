@@ -333,20 +333,29 @@ namespace IdentityServerHost.Quickstart.UI
                         }
                     }
 
+                } else {
+                    foreach (var error in result.Errors) {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            this.SetViewBagRoles();
             return View(model);
+        }
+
+        private void SetViewBagRoles()
+        {
+            List<string> roles = new List<string>();
+            roles.Add("Admin");
+            roles.Add("Client");
+            ViewBag.message = roles;
         }
 
         private async Task<RegisterViewModel> BuildRegisterViewModelAsync(string returnUrl)
         {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            List<string> roles = new List<string>();
-            roles.Add("Admin");
-            roles.Add("Client");
-            ViewBag.message = roles;
+            this.SetViewBagRoles();
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
                 var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
