@@ -6,6 +6,8 @@ using GeekShopping.IdentityServer.Seed;
 using GeekShopping.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,9 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builderServices.AddDeveloperSigningCredential();
 
 builder.Services.AddControllersWithViews();
+
+builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console(LogEventLevel.Debug));
+
 
 var app = builder.Build();
 

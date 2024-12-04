@@ -2,6 +2,8 @@ using GeekShopping.Web.Interfaces;
 using GeekShopping.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +48,9 @@ builder.Services
     options.Scope.Add("geek_shopping");
     options.SaveTokens = true;
   });
+
+builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console(LogEventLevel.Debug));
+
 
 var app = builder.Build();
 
